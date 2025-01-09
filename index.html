@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test App 1</title>
+</head>
+<body>
+    <h1>Bienvenido a Test App 1</h1>
+    <p>Mensaje desde el ConfigMap: <span id="configmap-message"></span></p>
+    <p>Variable de Entorno: <span id="env-variable"></span></p>
+    <p>Secreto: <span id="secret-value"></span></p>
+    <script>
+        document.getElementById('configmap-message').textContent = "{{ .Values.configmap.message }}";
+        document.getElementById('env-variable').textContent = "{{ .Values.environment.otra_variable }}";
+        document.getElementById('secret-value').textContent = "{{ .Values.secret.mi_secreto }}";
+    </script>
+</body>
+</html>

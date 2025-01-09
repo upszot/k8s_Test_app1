@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app1
+  template:
+    metadata:
+      labels:
+        app: test-app1
+    spec:
+      containers:
+      - name: test-app1
+        image: upszot/test-app1:latest 
+        ports:
+        - containerPort: 80
+        envFrom:
+          - secretRef:
+              name: test-app1-secret 
+        env:
+          - name: OTRA_VARIABLE
+            valueFrom:
+              configMapKeyRef:
+                name: test-app1-config 
+                key: otra_variable
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: test-app1-config

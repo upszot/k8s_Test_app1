@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-app1-config
+data:
+  message: "Mensaje por defecto del ConfigMap"
+  otra_variable: "Valor por defecto de la variable"
