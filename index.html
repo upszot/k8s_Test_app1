@@ -9,9 +9,21 @@
     <p>Variable de Entorno: <span id="env-variable"></span></p>
     <p>Secreto: <span id="secret-value"></span></p>
     <script>
-        document.getElementById('configmap-message').textContent = "{{ .Values.configmap.message }}";
-        document.getElementById('env-variable').textContent = "{{ .Values.environment.otra_variable }}";
-        document.getElementById('secret-value').textContent = "{{ .Values.secret.mi_secreto }}";
+        fetch('/etc/config/message')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(text => document.getElementById('configmap-message').textContent = text)
+            .catch(error => {
+                console.error("Error al leer el configmap:", error);
+                document.getElementById('configmap-message').textContent = "Error al cargar el mensaje";
+            });
+
+        document.getElementById('env-variable').textContent = process.env.OTRA_VARIABLE || "Valor por defecto de la variable";
+        document.getElementById('secret-value').textContent = process.env.MI_SECRETO || "Valor por defecto del secreto";
     </script>
 </body>
 </html>
