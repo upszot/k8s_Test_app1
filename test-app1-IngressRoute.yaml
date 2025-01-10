@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: test-app1-ingress
+  namespace: test-app1 
+spec:
+  entryPoints:
+    - web 
+  routes:
+  - match: Host(`test-app1.metallb.pert.com.ar`) 
+    kind: Rule
+    services:
+    - name: test-app1-service 
+      port: 80
+
